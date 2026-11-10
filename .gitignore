@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.omc/
+# Training artefacts: published to the Hugging Face Hub, never committed.
+runs/
+*.pth
+*.safetensors
