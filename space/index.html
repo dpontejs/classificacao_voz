@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Speech Commands Demo</title>
+    <meta
+      name="description"
+      content="Say one English word and a Wav2Vec2 model running in your browser guesses which of 35 it is."
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>Speech command recognition</h1>
+        <p class="lead">
+          Say one English word and a Wav2Vec2 model guesses which of 35 it is. The model runs
+          <strong>in your browser</strong>: your audio never leaves this page.
+        </p>
+      </header>
+
+      <section class="card" aria-labelledby="try">
+        <h2 id="try">Try it</h2>
+        <p id="status" role="status">Loading the model (~120 MB, cached after the first visit)…</p>
+
+        <div class="actions">
+          <button id="record" type="button" disabled>Record 2 seconds</button>
+          <label class="file">
+            <input id="upload" type="file" accept="audio/*" disabled />
+            <span>Upload a file</span>
+          </label>
+        </div>
+
+        <div class="examples">
+          <span>Or play an example:</span>
+          <button type="button" data-example="yes" disabled>yes</button>
+          <button type="button" data-example="stop" disabled>stop</button>
+          <button type="button" data-example="three" disabled>three</button>
+          <button type="button" data-example="marvin" disabled>marvin</button>
+        </div>
+
+        <audio id="player" controls hidden></audio>
+        <ol id="results" aria-live="polite"></ol>
+      </section>
+
+      <section class="card" aria-labelledby="words">
+        <h2 id="words">Words it knows</h2>
+        <p class="words">
+          yes · no · up · down · left · right · on · off · stop · go · forward · backward · follow ·
+          learn · zero … nine · bed · bird · cat · dog · happy · house · marvin · sheila · tree ·
+          visual · wow
+        </p>
+        <p class="note">
+          It always picks one of these words, even for other sounds. Only the loudest second of a
+          recording is used.
+        </p>
+      </section>
+
+      <footer>
+        97.72% accuracy on the official Speech Commands test split ·
+        <a href="https://huggingface.co/diegomponte/wav2vec2-base-speech-commands-35">Model</a> ·
+        <a href="https://github.com/dpontejs/classificacao_voz">Code</a> · Examples from
+        <a href="https://arxiv.org/abs/1804.03209">Speech Commands</a> (CC-BY-4.0)
+      </footer>
+    </main>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
