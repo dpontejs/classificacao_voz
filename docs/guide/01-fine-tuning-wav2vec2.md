@@ -74,7 +74,7 @@ What this version does differently:
 ## Pitfalls
 
 - **Sampling rate.** The model expects 16 kHz. A 44.1 kHz recording fed without resampling gives
-  confident nonsense. The demo resamples with `librosa`.
+  confident nonsense. The demo resamples by decoding with an `AudioContext` created at 16 kHz.
 - **Speaker leakage.** Never build your own random split of this dataset; use the official lists.
 - **This is not the 12-class keyword-spotting benchmark** (10 words + "unknown" + "silence") that
   many papers report. Compare numbers only with results on the same 35-class task.

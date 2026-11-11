@@ -11,6 +11,8 @@ tags:
   - keyword-spotting
   - speech-commands
   - wav2vec2
+  - onnx
+  - transformers.js
 model-index:
   - name: wav2vec2-base-speech-commands-35
     results:
@@ -50,6 +52,18 @@ classifier("my_recording.wav", top_k=3)
 # [{'label': 'yes', 'score': 0.99}, ...]
 ```
 
+In the browser, with [Transformers.js](https://huggingface.co/docs/transformers.js) and the int8
+ONNX export in `onnx/`:
+
+```js
+import { pipeline } from "@huggingface/transformers";
+
+const classifier = await pipeline(
+  "audio-classification", "diegomponte/wav2vec2-base-speech-commands-35", { dtype: "q8" },
+);
+await classifier(float32Audio16kHz, { top_k: 3 });
+```
+
 Input should be **one second of 16 kHz mono audio** with a single word. For longer recordings, cut
 the second around the word first (the demo keeps the loudest second).
 
@@ -62,6 +76,17 @@ Official test split: 11,005 clips from speakers never seen in training.
 | Accuracy | **97.72%** |
 | Macro F1 | 0.975 |
 | Validation accuracy (best epoch) | 97.75% |
+
+The ONNX exports were measured on the same test split with ONNX Runtime:
+
+| File | Size | Accuracy |
+|---|---|---|
+| `model.safetensors` (PyTorch) | 378 MB | 97.72% |
+| `onnx/model.onnx` (fp32) | 379 MB | 97.72% |
+| `onnx/model_quantized.onnx` (int8, transformer MatMuls only) | 122 MB | 97.71% |
+
+Quantizing every layer, including the convolutional feature encoder, gave a 95 MB file but dropped
+accuracy to 78.4%, so the convolutions stay in fp32.
 
 Hardest words by F1: "tree" (0.91), "forward" (0.95), "learn" (0.95). Most errors are between words
 that sound alike: "tree" ↔ "three" (25 of the errors) and "off" heard as "up" (10).

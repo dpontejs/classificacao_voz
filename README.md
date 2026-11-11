@@ -3,13 +3,14 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)
 ![Hugging Face](https://img.shields.io/badge/Hugging%20Face-FFD21E?style=flat-square&logo=huggingface&logoColor=black)
-![Gradio](https://img.shields.io/badge/Gradio-F97316?style=flat-square&logo=gradio&logoColor=white)
+![ONNX](https://img.shields.io/badge/ONNX-005CED?style=flat-square&logo=onnx&logoColor=white)
 
 Recognises 35 spoken English commands ("yes", "no", "up", "down", digits, …) by fine-tuning
 **Wav2Vec2** on the full [Speech Commands v0.02](https://arxiv.org/abs/1804.03209) dataset.
 
 - **Model:** [diegomponte/wav2vec2-base-speech-commands-35](https://huggingface.co/diegomponte/wav2vec2-base-speech-commands-35)
-- **Live demo:** [diegomponte/speech-commands-demo](https://huggingface.co/spaces/diegomponte/speech-commands-demo)
+- **Live demo:** [diegomponte/speech-commands-demo](https://huggingface.co/spaces/diegomponte/speech-commands-demo),
+  running in the browser with Transformers.js (your audio never leaves the page)
 
 ```python
 from transformers import pipeline
@@ -44,7 +45,7 @@ then "off" heard as "up". Per-class F1 and the confusion matrix are in
 The guides in [`docs/guide/`](docs/guide/) explain each step and why:
 
 1. [Fine-tuning Wav2Vec2 for spoken commands](docs/guide/01-fine-tuning-wav2vec2.md)
-2. [Publishing the model and a demo on the Hugging Face Hub](docs/guide/02-publishing-on-the-hub.md)
+2. [Publishing the model and an in-browser demo on the Hugging Face Hub](docs/guide/02-publishing-on-the-hub.md)
 
 ## Running
 
@@ -58,12 +59,13 @@ cd -
 make test       # unit tests
 make train      # ~35 min on an RTX 4050 laptop GPU
 make evaluate   # writes results/test_metrics.json
+make export-onnx  # onnx/model.onnx and the int8 onnx/model_quantized.onnx for the browser
 ```
 
 | Path | Contents |
 |---|---|
 | `src/speech_commands/` | Data loading, training, evaluation |
-| `space/` | Gradio demo deployed as a Hugging Face Space |
+| `space/` | In-browser demo (HTML + Transformers.js) deployed as a static Hugging Face Space |
 | `results/` | Test metrics of the published model |
 | `notebooks/` | The first version, trained on Kaggle (kept for history) |
 
