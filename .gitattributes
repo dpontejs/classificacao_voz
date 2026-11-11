@@ -1,0 +1,3 @@
+# The original Kaggle notebooks are history, not the project's code: keep them out of the
+# language stats so GitHub shows Python.
+notebooks/** linguist-documentation
