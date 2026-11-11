@@ -15,6 +15,11 @@ dependencies = [
 
 [dependency-groups]
 dev = ["pytest>=8", "ruff>=0.6"]
+export = [
+    "onnx>=1.23.2",
+    "onnxruntime>=1.31.1",
+    "onnxscript>=0.7.2",
+]
 
 [build-system]
 requires = ["hatchling"]
